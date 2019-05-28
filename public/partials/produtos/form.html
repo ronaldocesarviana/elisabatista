@@ -1,0 +1,54 @@
+<h2>{{vm.titulo}}</h2>
+<form name="formProdutos">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="inputcodigo">Código</label>
+            <input required type="text" ng-model="vm.produto.codigo" class="form-control" id="inputcodigo">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="selectcategoria">Categoria</label>
+            <select required class="form-control" id="selectcategoria" ng-model="vm.produto.categoria">
+                <option ng-repeat="categoria in vm.podutoCategoriaList" value="{{categoria}}">{{categoria}}</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-8">
+            <label for="inputDescricao">Descrição</label>
+            <input required type="text" ng-model="vm.produto.descricao" class="form-control" id="inputDescricao"
+                placeholder="Descrição">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="inputprecocompra">Preço Compra</label>
+            <input name="preco_compra" placeholder="0.00" required pattern="^\d+(?:\.\d{1,2})?$" type="text"
+                ng-model="vm.produto.preco_compra" class="form-control" id="inputprecocompra"
+                ng-class="{false: 'is-invalid', true: 'is-valid'}[formProdutos.preco_compra.$valid]">
+            <div class="invalid-feedback ">
+                Informe o preço de compra válido!
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputprecovenda">Preço Venda</label>
+            <input name="preco_venda" placeholder="0.00" required type="text" pattern="^\d+(?:\.\d{1,2})?$"
+                ng-model="vm.produto.preco_venda" class="form-control" id="inputprecovenda"
+                ng-class="{false: 'is-invalid', true: 'is-valid'}[formProdutos.preco_venda.$valid]">
+            <div class="invalid-feedback ">
+                Informe o preço de venda válido!
+            </div>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="inputestoque">Estoque</label>
+            <input required name="estoque" type="text" ng-model="vm.produto.estoque" class="form-control" id="inputestoque" ng-class="{false: 'is-invalid', true: 'is-valid'}[formProdutos.estoque.$valid]">
+            <div class="invalid-feedback ">
+                    Informe a quantidade em estoque!
+                </div>
+        </div>
+    </div>
+    <button ng-disabled="!formProdutos.$valid" ng-click="vm.save()" type="button"
+        class="btn btn-primary">Salvar</button>
+    <button ui-sref="produtoList" type="button" class="btn">Voltar</button>
+</form>

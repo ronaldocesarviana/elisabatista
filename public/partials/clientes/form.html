@@ -1,0 +1,57 @@
+<h2>{{vm.titulo}}</h2>
+<form name="formClientes">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label>Código</label>
+            <input ng-model="vm.cliente.codigo" type="text" class="form-control" ng-disabled="true">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>CPF/CNPJ</label>
+            <input ng-model="vm.cliente.cpf_cnpj" type="text" class="form-control">
+        </div>
+
+        <div class="form-group col-md-8">
+            <label>Nome</label>
+            <input required ng-model="vm.cliente.nome" type="text" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-5">
+            <label>Email</label>
+            <input ng-model="vm.cliente.email" type="email" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Telefone</label>
+            <input ng-model="vm.cliente.fone" type="text" class="form-control">
+        </div>
+
+        <div class="form-group col-md-3">
+            <label>Data Nascimento</label>
+            <input ng-model="vm.cliente.data_nascimento" type="date" class="form-control">
+        </div>
+        <div class="form-group col-md-5">
+            <label>Endereço</label>
+            <input ng-model="vm.cliente.endereco" type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Complemento</label>
+            <input ng-model="vm.cliente.complemento" type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-8">
+            <label>Conjuge</label>
+            <input ng-model="vm.cliente.conjuge" type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label>Telefone conjuge</label>
+            <input ng-model="vm.cliente.fone_conjuge" type="text" class="form-control">
+        </div>
+    </div>
+
+    <button ng-disabled="!formClientes.$valid" ng-click="vm.save()" type="button"
+        class="btn btn-primary">Salvar</button>
+    <button ui-sref="clienteList" type="button"
+        class="btn">Voltar</button>
+</form>
