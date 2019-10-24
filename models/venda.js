@@ -20,6 +20,8 @@ const _model = new Schema({
         },
         descricao: String,
         preco: String,
+        vlProduto: String,
+        vlTotalDesc: String,
         quantidade: String
     }]
    // itens:{type:String}

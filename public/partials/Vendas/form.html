@@ -1,14 +1,14 @@
 <h2>{{vm.titulo}}</h2>
 <form name="formVenda">
     <div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 input-group-sm">
             <label>Data Emissão</label>
             <input required ng-model="vm.venda.emissao" type="date" class="form-control">
         </div>
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-9 input-group-sm">
             <label>Cliente</label>
            
-            <input required ng-model="vm.venda.cliente" type="text" class="form-control"
+            <input  ng-model="vm.venda.cliente" type="text" class="form-control"
                 ng-keyup="vm.buscaClientes(vm.venda.cliente)">
             <ul class="list-group" style="z-index:1006; position: absolute; width: 95%" ng-model="vm.hideListCliente"
                 ng-hide="vm.hideListCliente">
@@ -16,62 +16,79 @@
                     ng-click="vm.setClienteSelecionado(cliente)">{{cliente.nome}}</li>
             </ul>
         </div>
-        <div class="form-group col-md-8">
-            <label>Produto</label>
-            <input required ng-model="vm.produtoSelecionado.descricao" type="text" class="form-control"
-                ng-keyup="vm.buscaProdutos(vm.produtoSelecionado.descricao)">
-            <ul class="list-group" style="z-index:1006; position: absolute; width: 95%" ng-model="vm.hideListProduto"
+        <div class="form-group col-md-1 input-group-sm">
+                <label>Quantidade</label>
+                <input  ng-model="vm.produtoSelecionado.quantidade" name="quantidade"  pattern="\d+?$" ng-class="{false: 'is-invalid', true: 'is-valid'}[formVenda.quantidade.$valid]"  type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-7 input-group-sm">
+            <label>Produto</label>  {{vm.produtoSelecionado._id == undefined ? true : false}}
+            <input  name="descricao" ng-model="vm.produtoSelecionado.descricao" type="text" class="form-control"
+                ng-keyup="vm.buscaProdutos(vm.produtoSelecionado.descricao)" ng-class="{false: 'is-invalid', true: 'is-valid'}[formVenda.descricao.$valid]" ng-disabled="vm.produtoSelecionado._id == undefined ? false : true">
+            <ul class="list-group"  tyle="z-index:1006; position: absolute; width: 95%" ng-model="vm.hideListProduto" 
                 ng-hide="vm.hideListProduto">
                 <li class="list-group-item" ng-repeat="produto in vm.produtosFiltrados"
                     ng-click="vm.setProdutoSelecionado(produto)">{{produto.descricao}}</li>
             </ul>
         </div>
-        <div class="form-group col-md-2">
-            <label>Preço</label>
-            <input name="preco" ng-class="{false: 'is-invalid', true: 'is-valid'}[formVenda.preco.$valid]" placeholder="0.00"  pattern="^\d+(?:\.\d{1,2})?$" ng-model="vm.produtoSelecionado.preco" type="text" class="form-control">
+        <div class="form-group col-md-2 input-group-sm">
+            <label>Valor do produto</label>
+            <input  placeholder="0.00" disabled ng-model="vm.produtoSelecionado.vlProduto" value="{{vm.produtoSelecionado.vlProduto  | currency:'R$: '}}" type="text" class="form-control">
             
         </div>
-        <div class="form-group col-md-1">
-            <label>Quantidade</label>
-            <input  ng-model="vm.produtoSelecionado.quantidade" type="text" class="form-control">
-        </div>
+        <div class="form-group col-md-2 input-group-sm">
+                <label>Valor de venda</label>
+                <input name="preco" ng-class="{false: 'is-invalid', true: 'is-valid'}[formVenda.preco.$valid]" placeholder="0.00"  ng-model="vm.produtoSelecionado.preco"  type="text" class="form-control">         
+        </div>     
+          
     </div>
 
+    <div class="form-group col-md-12 text-right input-group-sm" style="float: right;">
+            <p class="font-weight-bold text-danger">Total de desconto {{(vm.produtoSelecionado.vlProduto * vm.produtoSelecionado.quantidade) - (vm.produtoSelecionado.preco * vm.produtoSelecionado.quantidade) || 0 | currency : "R$: " }}</p>
+            <p class="font-weight-bold text-primary"style="margin-top: -19px;">Valor final {{vm.produtoSelecionado.preco  * vm.produtoSelecionado.quantidade ||  0 | currency : "R$: "}}</p>
+    </div>  
     <div class="btn-toolbar mb-2 mb-md-0">
-        <a ng-click="vm.addProdutoVenda(vm.produtoSelecionado)" class="btn btn-sm btn-outline-success">
+        <button style="position: absolute;" ng-disabled="!formVenda.$valid" ng-click="vm.addProdutoVenda(vm.produtoSelecionado)" class="btn btn-sm btn-outline-success">
             <span class="fas fa-plus-square"></span>
             Adicinar item
-        </a>
+        </button>
     </div>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
     </div>
     <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm" >
             <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Quantidade</th>
-                    <th>Valor R$</th>
-                    <th>Total R$</th>
+                <tr >
+                    <th class="text-center" >Quantidade</th>
+                    <th>Descrição</th>                    
+                    <th  class="text-right">Valor do produto (R$)</th>                    
+                    <th  class="text-right">Desconto (R$)</th>
+                    <th  class="text-right">Valor da venda (R$)</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="itemVenda in vm.venda.itens">                  
-                    <td>{{itemVenda.descricao}}</td>
-                    <td>{{itemVenda.quantidade}}</td>
-                    <td>{{itemVenda.preco}}</td>
-                    <td>{{vm.somaTotal(itemVenda.preco, itemVenda.quantidade)}}</td>                    
+                <tr ng-repeat="itemVenda in vm.venda.itens">                      
+                    <td class="text-center">{{itemVenda.quantidade}}</td>                  
+                    <td>{{itemVenda.descricao }}</td>                    
+                    <td class="text-right">{{itemVenda.vlProduto * itemVenda.quantidade | currency: ''}}</td>
+                    <td  class="text-right">{{itemVenda.vlTotalDesc | currency: ''}}</td>
+                    <td class="text-right">{{vm.somaTotal(itemVenda.preco, itemVenda.quantidade) | currency: ''}}</td>                    
                     <td class="text-right">
-                        <a href="#" ng-click="vm.removeProduto($index)"><span class="fas fa-trash-alt"></span></a>
+                         <a href ng-click="vm.editProduto(itemVenda)"><span class="fas fa-pencil-alt"></span></a>
+                        <a href ng-click="vm.removeProduto($index)"><span class="fas fa-trash-alt"></span></a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
+    <div class="form-group col-md-12 text-right input-group-sm" style="float: right;">
+            <p class="font-weight-bold " style="color: gray">Total do produto {{vm.vlTotalProd | currency:'R$: '}}</p>
+            <p class="font-weight-bold text-danger"style="margin-top: -19px">Total de desconto {{vm.vlTotalDesconto | currency:'R$: '}}</p>
+            <p class="font-weight-bold text-success"style="margin-top: -19px;">Total da venda {{vm.vlTotalvenda | currency:'R$: '}}</p>
+    </div> 
     <button ng-disabled="!formVenda.$valid" ng-click="vm.save()" type="button" class="btn btn-primary">Salvar</button>
     <button ui-sref="vendaList" type="button"
         class="btn">Voltar</button>
+       
 </form>

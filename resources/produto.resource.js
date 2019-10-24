@@ -71,7 +71,7 @@ module.exports = function (app) {
     });
 
     app.get('/produtos/bydescricao/:descricao', function (req, resp) {
-        produtoModel.find({ descricao: { $regex: new RegExp(req.params.descricao), $options: 'i' } })
+        produtoModel.find({ descricao: { $regex: new RegExp(req.params.descricao), $options: 'i' } }).limit(5)
             .then(
                 function (data) {
                     if (!data) {

@@ -13,7 +13,7 @@
             <tr>
                 <th>Emissão</th>
                 <th>Cliente</th>
-                <th>Total da venda</th>               
+                <th>Total da venda (R$)</th>               
                 <th></th>
             </tr>
         </thead>
@@ -21,7 +21,7 @@
             <tr ng-repeat="venda in vm.venda">
                 <td>{{ venda.emissao | date: 'dd/MM/yyyy' }}</td>
                 <td>{{venda.cliente}}</td>
-                <td>{{vm.somarItensVenda(venda.itens)}}</td>                
+                <td>{{vm.somarItensVenda(venda.itens)  | currency : ''}}</td>                
                 <td class="text-right">
                     <a ui-sref="vendaEditar({id:venda._id})"><span class="fas fa-edit"></span></a>
                     <a href="#" ng-click="vm.excluir(venda._id)"><span class="fas fa-trash-alt"></span></a>

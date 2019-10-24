@@ -106,3 +106,7 @@ body {
    background-color: #fbc9ba 
   
 }
+   
+.table-sm td, .table-sm th {
+    padding: .2rem;
+}

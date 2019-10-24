@@ -67,7 +67,7 @@ module.exports = function (app) {
     });
 
     app.get('/clientes/bynome/:nome', function (req, resp) {
-        clienteModel.find({ nome: { $regex: new RegExp(req.params.nome), $options: 'i' } })
+        clienteModel.find({ nome: { $regex: new RegExp(req.params.nome), $options: 'i' } }).limit(5)
             .then(
                 function (data) {
                     if (!data) {
