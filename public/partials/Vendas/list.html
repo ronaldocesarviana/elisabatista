@@ -1,11 +1,24 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Venda</h1>
+    <h1 class="h2">Vendas</h1>
+    <div class="form-row" >
+        <div class="col-md-4 mb-1" >
+                <div class="input-group-sm ">
+                    <input name="ano" value="{{vm.currentYear}}" ng-model="vm.year"  minlength="4" min="2015"  placeholder="Ano" type="number" class="form-control">
+                </div> 
+        </div>
+        <div class="col-md-6 mb-3">
+            <select class="custom-select custom-select-sm  mb-2 mb-md-0" ng-model="search.emissao" >
+                <option ng-selected="vm.isMonthCurrent(competencia)"   ng-repeat="competencia in vm.competenciasList" value="{{vm.filter(vm.currentYear,competencia)}}">{{competencia.descricao}} {{vm.isMonthCurrent(competencia)}}</option>
+            </select> 
+        </div>
+              {{search.emissao}}
+    </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a ui-sref="vendaNovo" class="btn btn-sm btn-outline-success">
             <span class="fas fa-plus-square"></span>
             Nova Venda
         </a>
-    </div>
+    </div>    
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-sm">
@@ -13,15 +26,15 @@
             <tr>
                 <th>Emissão</th>
                 <th>Cliente</th>
-                <th>Total da venda (R$)</th>               
+                <th class="text-right">Total da venda (R$)</th>               
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="venda in vm.venda">
-                <td>{{ venda.emissao | date: 'dd/MM/yyyy' }}</td>
+            <tr ng-repeat="venda in vm.venda | filter:search ">
+                <td>{{ venda.emissao  | date: 'dd/MM/yyyy' }}</td>
                 <td>{{venda.cliente}}</td>
-                <td>{{vm.somarItensVenda(venda.itens)  | currency : ''}}</td>                
+                <td class="text-right">{{vm.somarItensVenda(venda.itens)  | currency : ''}}</td>                
                 <td class="text-right">
                     <a ui-sref="vendaEditar({id:venda._id})"><span class="fas fa-edit"></span></a>
                     <a href="#" ng-click="vm.excluir(venda._id)"><span class="fas fa-trash-alt"></span></a>
