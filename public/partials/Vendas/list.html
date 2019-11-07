@@ -3,15 +3,23 @@
     <div class="form-row" >
         <div class="col-md-4 mb-1" >
                 <div class="input-group-sm ">
-                    <input name="ano" value="{{vm.currentYear}}" ng-model="vm.year"  minlength="4" min="2015"  placeholder="Ano" type="number" class="form-control">
+                    <input name="ano" ng-model="vm.year" ng-init="vm.currentYear" minlength="4" min="2015"  placeholder="Ano" type="number" class="form-control">
                 </div> 
         </div>
         <div class="col-md-6 mb-3">
-            <select class="custom-select custom-select-sm  mb-2 mb-md-0" ng-model="search.emissao" >
-                <option ng-selected="vm.isMonthCurrent(competencia)"   ng-repeat="competencia in vm.competenciasList" value="{{vm.filter(vm.currentYear,competencia)}}">{{competencia.descricao}} {{vm.isMonthCurrent(competencia)}}</option>
+            <select class="custom-select custom-select-sm  mb-2 mb-md-0" ng-model="search.emissao">
+                <option ng-selected="vm.data.unit == item.id" ng-repeat="competencia in vm.units" ng-value="item.id">{{competencia.label}} {{vm.isMonthCurrent(competencia)}}</option>
             </select> 
+            {{search.emissao}}
         </div>
-              {{search.emissao}}
+        <div >
+                <select class="form-control"  ng-model="vm.data.unit">
+                     <option ng-selected="vm.data.unit == item.id" ng-repeat="item in vm.units" ng-value="item.id">{{item.label}}</option>
+                </select>
+                {{vm.data.unit}}
+                </div>
+                
+           
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a ui-sref="vendaNovo" class="btn btn-sm btn-outline-success">

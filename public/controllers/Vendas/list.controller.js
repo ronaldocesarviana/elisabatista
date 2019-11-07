@@ -1,11 +1,35 @@
 angular.module('app')
     .controller('VendaListController', VendaListController);
 
-VendaListController.$inject = ['VendaService'];
+VendaListController.$inject = ['VendaService','$scope'];
 
-function VendaListController(VendaService){
+function VendaListController(VendaService,$scope){
     var vm = this;
     vm.venda = [];
+    vm.monthCurrent = function(){
+        return new Date().getMonth()+1;
+    }
+    vm.units = [
+        {'id':1,'label': "Janeiro"},
+        {'id':2,'label': "Fevereiro"},
+        {'id':3,'label': "Março"},
+        {'id':4,'label': "Abril"},
+        {'id':5,'label': "Maio"},
+        {'id':6,'label': "Junho"},
+        {'id':7,'label': "Julho"},
+        {'id':8,'label': "Agosto"},
+        {'id':9,'label': "Setembro"},
+        {'id':10,'label': "Outubro"},
+        {'id':11,'label': "Novembro"},
+        {'id':12,'label': "Dezembro"}
+    ]
+        vm.data = {
+        'id': 2,
+        'unit': vm.monthCurrent()
+        }
+
+   
+      
     vm.competenciasList=[
         {value:"1",descricao: "Janeiro"},
         {value:"2",descricao: "Fevereiro"},
@@ -21,8 +45,9 @@ function VendaListController(VendaService){
         {value:"12",descricao: "Dezembro"}
     ]
     vm.currentYear = new Date().getFullYear();
+    vm.year = vm.currentYear
     vm.isMonthCurrent = function(competencia){
-        return competencia.value == new Date().getMonth()+1+'';
+        return competencia.value === new Date().getMonth()+1+'';
     }
     vm.filter = function(year, month){
         value=""
@@ -33,7 +58,10 @@ function VendaListController(VendaService){
         }
        return value
     }
-
+    vm.teste = {
+            'id': 1,
+            'unit': 27
+        }
     function _load() {
         VendaService.findAll()
             .then(function (dados) {
